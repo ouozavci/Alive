@@ -75,7 +75,6 @@ public class Zombi : MonoBehaviour
         if (other.name.Equals("Arrow(Clone)"))
         {
             health -= 50;
-            Debug.Log(calculateHealth());
         }
 
     }
