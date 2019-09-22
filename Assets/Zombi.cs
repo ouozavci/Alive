@@ -16,6 +16,10 @@ public class Zombi : MonoBehaviour
     private CharacterController controller;
     private Vector3 moveDirection = Vector3.zero;
     private bool isDead = false;
+    public PlayerHealth playerHealth;
+    private bool attackable = true;
+
+    public float waitForNextAttack = 1f;
     void Start()
     {
         health = maxHealth;
@@ -33,19 +37,30 @@ public class Zombi : MonoBehaviour
             }
             else
             {
-                attack();
+                if (attackable)
+                {
+                    attack();
+                    attackable = false;
+                    StartCoroutine(AttackingYield());
+                }
+
             }
         }
-        else if(!isDead)
+        else if (!isDead)
         {
             isDead = true;
             die();
         }
     }
 
+    IEnumerator AttackingYield()
+    {
+        yield return new WaitForSeconds(waitForNextAttack);
+        attackable = true;
+    }
+
     private void walkToArcher()
     {
-        Debug.Log(controller.isGrounded);
         moveDirection = calculateDirection(transform.position, player.transform.position);
         controller.SimpleMove(moveDirection * speed * Time.deltaTime);
     }
@@ -67,6 +82,7 @@ public class Zombi : MonoBehaviour
 
     private void attack()
     {
+        playerHealth.getDamage(10);
     }
 
     private void die()
@@ -77,7 +93,7 @@ public class Zombi : MonoBehaviour
         rb.mass = 80;
         rb.AddForce(calculateDirection(transform.position, player.transform.position) * -1 * 300, ForceMode.Acceleration);
 
-        Destroy(gameObject, 30);
+        Destroy(gameObject, 10);
     }
 
     private Vector3 calculateDirection(Vector3 startPoint, Vector3 destination)
