@@ -9,7 +9,7 @@ public class ShootArrows : MonoBehaviour
     public float arrowSpeed;
     public float despawnTime = 3.0f;
     public bool shootable = true;
-    public float waitBeforeNextShot = 0.25f;
+    public float waitBeforeNextShot = 1f;
 
 
 
@@ -35,7 +35,7 @@ public class ShootArrows : MonoBehaviour
         RaycastHit hit;
 
         if(Physics.Raycast(ray, out hit, 1000)){
-            Vector3 target = hit.point;
+            Vector3 target = new Vector3(hit.point.x,transform.position.y,hit.point.z);
             this.transform.LookAt(target);
         }
     }
