@@ -74,7 +74,8 @@ public class Zombi : MonoBehaviour
     {
         if (other.name.Equals("Arrow(Clone)"))
         {
-            health -= 50;
+            health -= other.attachedRigidbody.velocity.magnitude;
+            Debug.Log("Hit: "+other.attachedRigidbody.velocity.magnitude);
         }
 
     }
