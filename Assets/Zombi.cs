@@ -37,7 +37,7 @@ public class Zombi : MonoBehaviour
             }
             else
             {
-                if (attackable)
+                if (attackable && playerHealth.isAlive)
                 {
                     attack();
                     attackable = false;
@@ -89,7 +89,7 @@ public class Zombi : MonoBehaviour
         controller.enabled = false;
         gameObject.GetComponent<CapsuleCollider>().isTrigger = false;
         Rigidbody rb = gameObject.AddComponent<Rigidbody>();
-        rb.mass = 80;
+        rb.mass = 50;
         rb.AddForce(calculateDirection(transform.position, player.transform.position) * -1 * 300, ForceMode.Acceleration);
 
         Destroy(gameObject, 10);

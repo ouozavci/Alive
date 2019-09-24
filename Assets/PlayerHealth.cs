@@ -9,11 +9,13 @@ public class PlayerHealth : MonoBehaviour
     public float health;
     public Slider playerHealthSlider;
     public Text healthText;
+    public bool isAlive;
     // Start is called before the first frame update
     public GameObject gameOverSprite;
     public GameObject bloodImage;
     void Start()
     {
+        isAlive = true;
         health = maxHealth;
         healthText.text = health + "/" + maxHealth;
     }
@@ -42,6 +44,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     void die(){
+        isAlive = false;
         gameOverSprite.SetActive(true);
         Rigidbody rb = gameObject.AddComponent<Rigidbody>();
         rb.mass = 80;
