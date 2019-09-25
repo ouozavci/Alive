@@ -18,6 +18,7 @@ public class PlayerHealth : MonoBehaviour
         isAlive = true;
         health = maxHealth;
         healthText.text = health + "/" + maxHealth;
+        playerHealthSlider.enabled = false;
     }
 
     // Update is called once per frame
