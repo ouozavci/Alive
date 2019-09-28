@@ -347,7 +347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   arrow: {fileID: 8109574900647797205}
   bow: {fileID: 8109574900096441478}
-  arrowSpeed: 100
+  arrowSpeed: 5
   despawnTime: 1
   shootable: 1
   waitBeforeNextShot: 0.5

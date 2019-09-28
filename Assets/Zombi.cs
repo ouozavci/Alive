@@ -49,7 +49,7 @@ public class Zombi : MonoBehaviour
         deathClips.Add(death_clip1);
         deathClips.Add(death_clip2);
         deathClips.Add(death_clip3);
-        
+
         Physics.IgnoreLayerCollision(8, 9);
         animator = GetComponentInChildren<Animator>();
         animator.SetBool("isAlive", true);
@@ -97,7 +97,7 @@ public class Zombi : MonoBehaviour
         }
         else if (!isDead)
         {
-            
+
             isDead = true;
             die();
         }
@@ -121,15 +121,6 @@ public class Zombi : MonoBehaviour
         return health / maxHealth;
     }
 
-    void OnCollisionEnter(Collision other)
-    {
-        if (other.collider.name.Equals("Arrow(Clone)"))
-        {
-            /*Physics.IgnoreCollision(other.collider, GetComponent<Collider>());
-            Debug.Log("Hit: " + other.collider.name);*/
-
-        }
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (isDead)
@@ -142,21 +133,20 @@ public class Zombi : MonoBehaviour
             if (arrowRb.velocity.magnitude > 30f)
             {
                 health -= arrowRb.velocity.magnitude;
-                arrowRb.velocity -= arrowRb.velocity * 0.1f;
+                arrowRb.velocity = arrowRb.velocity * 0.5f;
                 if (arrowRb.velocity.magnitude < 30f)
-                {
-                    {
-                        arrowRb.velocity = Vector3.zero;
-                        other.gameObject.SetActive(false);
-                    }
-                }
-                else
                 {
                     arrowRb.velocity = Vector3.zero;
                     other.gameObject.SetActive(false);
                 }
-
             }
+            else
+            {
+                arrowRb.velocity = Vector3.zero;
+                other.gameObject.SetActive(false);
+            }
+
+
 
         }
     }
