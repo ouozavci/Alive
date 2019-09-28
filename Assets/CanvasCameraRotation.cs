@@ -10,6 +10,7 @@ public class CanvasCameraRotation : MonoBehaviour
     private Vector3 startPosition;
 
     void Start(){
+        mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>() as Camera;
         startPosition = transform.position;
     }
     // Update is called once per frame

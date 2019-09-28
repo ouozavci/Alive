@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Zombi : MonoBehaviour
 {
     //This moves the player with a slope of 1 or undefined. Very limited
-
+    public PointCount pointCount;
     public float maxHealth;
     private float health;
     public GameObject healthBarUI;
@@ -33,6 +33,10 @@ public class Zombi : MonoBehaviour
     public float waitForNextAttack = 1f;
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerHealth = player.GetComponent<PlayerHealth>() as PlayerHealth;
+
+        pointCount = GameObject.FindWithTag("GameController").GetComponent<PointCount>() as PointCount;
 
         idleClips = new List<AudioClip>();
         attackClips = new List<AudioClip>();
@@ -93,6 +97,7 @@ public class Zombi : MonoBehaviour
         }
         else if (!isDead)
         {
+            
             isDead = true;
             die();
         }
@@ -161,6 +166,7 @@ public class Zombi : MonoBehaviour
 
     private void die()
     {
+        pointCount.addScore();
         audioSource.Stop();
         audioSource.clip = deathClips[Random.Range(0, deathClips.Count)];
         audioSource.Play();
@@ -168,7 +174,7 @@ public class Zombi : MonoBehaviour
         isDead = true;
         animator.SetBool("isAlive", false);
         healthSlider.gameObject.SetActive(false);
-        Destroy(gameObject, 10);
+        Destroy(gameObject, 2);
     }
 
     private Vector3 calculateDirection(Vector3 startPoint, Vector3 destination)
