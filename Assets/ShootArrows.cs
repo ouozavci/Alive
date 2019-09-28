@@ -53,7 +53,7 @@ public class ShootArrows : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 1000))
         {
-            if (Mathf.Abs(hit.point.x - transform.position.x) < 1 && Mathf.Abs(hit.point.z - transform.position.z) < 1)
+            if (Mathf.Abs(hit.point.x - transform.position.x) < 2 && Mathf.Abs(hit.point.z - transform.position.z) < 2)
             {
                 aiming = true;
                 aim_arrow.enabled = true;

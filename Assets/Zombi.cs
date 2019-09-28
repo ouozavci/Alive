@@ -22,12 +22,13 @@ public class Zombi : MonoBehaviour
 
     public float waitForNextAttack = 1f;
     void Start()
-    {
+    {   
+        Physics.IgnoreLayerCollision(8,9);
         animator = GetComponentInChildren<Animator>();
-        animator.SetBool("isAlive",true);
-        animator.SetBool("isWalking",false);
-        animator.SetBool("isAttacking",false);
-        
+        animator.SetBool("isAlive", true);
+        animator.SetBool("isWalking", false);
+        animator.SetBool("isAttacking", false);
+
         health = maxHealth;
         healthSlider.value = calculateHealth();
         controller = GetComponent<CharacterController>();
@@ -40,15 +41,15 @@ public class Zombi : MonoBehaviour
             if (Vector3.Distance(transform.position, player.transform.position) > attackDistance)
             {
                 walkToArcher();
-                animator.SetBool("isWalking",true);
+                animator.SetBool("isWalking", true);
             }
             else
             {
-                animator.SetBool("isWalking",false);
+                animator.SetBool("isWalking", false);
                 if (attackable && playerHealth.isAlive)
                 {
-                    animator.SetBool("isAttacking",true);
-                    attack();                  
+                    animator.SetBool("isAttacking", true);
+                    attack();
                     attackable = false;
                     StartCoroutine(AttackingYield());
                 }
@@ -79,9 +80,13 @@ public class Zombi : MonoBehaviour
         return health / maxHealth;
     }
 
-    void OnCollisionEnter(Collision other){
-        if(other.collider.name.Equals("Arrow(Clone)")){
-            Physics.IgnoreCollision(other.collider,GetComponent<Collider>());
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.collider.name.Equals("Arrow(Clone)"))
+        {
+            /*Physics.IgnoreCollision(other.collider, GetComponent<Collider>());
+            Debug.Log("Hit: " + other.collider.name);*/
+
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -89,7 +94,6 @@ public class Zombi : MonoBehaviour
         if (other.name.Equals("Arrow(Clone)"))
         {
             health -= other.attachedRigidbody.velocity.magnitude;
-            Debug.Log("Hit: "+other.attachedRigidbody.velocity.magnitude);
         }
 
     }
@@ -101,7 +105,7 @@ public class Zombi : MonoBehaviour
 
     private void die()
     {
-        animator.SetBool("isAlive",false);
+        animator.SetBool("isAlive", false);
         Destroy(gameObject, 10);
     }
 

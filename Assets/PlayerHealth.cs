@@ -13,8 +13,10 @@ public class PlayerHealth : MonoBehaviour
     // Start is called before the first frame update
     public GameObject gameOverSprite;
     public GameObject bloodImage;
+    public Button restartButton;
     void Start()
     {
+        restartButton.gameObject.SetActive(false);
         isAlive = true;
         health = maxHealth;
         healthText.text = health + "/" + maxHealth;
@@ -24,18 +26,29 @@ public class PlayerHealth : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-        if(health <= 0){
-            die();
+        if (health <= 0)
+        {
+            if (restartButton.isActiveAndEnabled == false)
+            {
+                restartButton.gameObject.SetActive(true);
+            }
+
+            if (isAlive)
+            {
+                die();
+            }
+
+
         }
     }
 
-    public void getDamage(float damage){
+    public void getDamage(float damage)
+    {
         bloodImage.SetActive(true);
         StartCoroutine(fadeOutImage());
-        health-=damage;
+        health -= damage;
         healthText.text = health + "/" + maxHealth;
-        playerHealthSlider.value = health/maxHealth;
+        playerHealthSlider.value = health / maxHealth;
     }
 
     IEnumerator fadeOutImage()
@@ -44,12 +57,28 @@ public class PlayerHealth : MonoBehaviour
         bloodImage.SetActive(false);
     }
 
-    void die(){
+    void die()
+    {
         isAlive = false;
         gameOverSprite.SetActive(true);
-        Rigidbody rb = gameObject.AddComponent<Rigidbody>();
-        rb.mass = 80;
-        rb.AddForce(transform.forward * -1 * 300, ForceMode.Acceleration);
+        //Rigidbody rb = gameObject.AddComponent<Rigidbody>();
+        //rb.mass = 80;
+        //rb.AddForce(transform.forward * -1 * 300, ForceMode.Acceleration);
         Debug.Log("Player is dead");
+
+    }
+
+    GameObject GetChildWithName(GameObject obj, string name)
+    {
+        Transform trans = obj.transform;
+        Transform childTrans = trans.Find(name);
+        if (childTrans != null)
+        {
+            return childTrans.gameObject;
+        }
+        else
+        {
+            return null;
+        }
     }
 }
