@@ -22,8 +22,8 @@ public class Zombi : MonoBehaviour
 
     public float waitForNextAttack = 1f;
     void Start()
-    {   
-        Physics.IgnoreLayerCollision(8,9);
+    {
+        Physics.IgnoreLayerCollision(8, 9);
         animator = GetComponentInChildren<Animator>();
         animator.SetBool("isAlive", true);
         animator.SetBool("isWalking", false);
@@ -91,13 +91,34 @@ public class Zombi : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (isDead)
+        {
+            return;
+        }
         if (other.name.Equals("Arrow(Clone)"))
         {
-            health -= other.attachedRigidbody.velocity.magnitude;
+            Rigidbody arrowRb = other.attachedRigidbody;
+            if (arrowRb.velocity.magnitude > 30f)
+            {
+                health -= arrowRb.velocity.magnitude;
+                arrowRb.velocity -= arrowRb.velocity * 0.1f;
+                if (arrowRb.velocity.magnitude < 30f)
+                {
+                    {
+                        arrowRb.velocity = Vector3.zero;
+                        other.gameObject.SetActive(false);
+                    }
+                }
+                else
+                {
+                    arrowRb.velocity = Vector3.zero;
+                    other.gameObject.SetActive(false);
+                }
+
+            }
+
         }
-
     }
-
     private void attack()
     {
         playerHealth.getDamage(10);
@@ -105,7 +126,9 @@ public class Zombi : MonoBehaviour
 
     private void die()
     {
+        isDead = true;
         animator.SetBool("isAlive", false);
+        healthSlider.gameObject.SetActive(false);
         Destroy(gameObject, 10);
     }
 
