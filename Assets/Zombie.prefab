@@ -288,7 +288,7 @@ MonoBehaviour:
   maxHealth: 100
   healthBarUI: {fileID: 1038189642445145527}
   healthSlider: {fileID: 1038189643692532178}
-  speed: 100
+  speed: 150
   attackDistance: 3
   player: {fileID: 8109574901018795379, guid: 3dca80908236073439df042bc5299e9f, type: 3}
   playerHealth: {fileID: 0}
