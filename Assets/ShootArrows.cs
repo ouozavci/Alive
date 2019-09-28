@@ -18,6 +18,10 @@ public class ShootArrows : MonoBehaviour
     private bool aiming = false;
     public float minShootPower = 30;
     public float maxShootPower = 100;
+    public AudioSource audioSource;
+    public AudioClip tensionClip;
+    public AudioClip shootClip;
+
 
     void Start()
     {
@@ -38,7 +42,12 @@ public class ShootArrows : MonoBehaviour
                 aiming = false;
                 aim_arrow.enabled = false;
                 if (shootPower > minShootPower)
+                {
+                    audioSource.Stop();
+                    audioSource.clip = shootClip;
                     shoot();
+                    audioSource.Play();
+                }
                 shootPower = 0;
                 shootable = false;
                 StartCoroutine(ShootingYield());
@@ -56,6 +65,8 @@ public class ShootArrows : MonoBehaviour
             if (Mathf.Abs(hit.point.x - transform.position.x) < 2 && Mathf.Abs(hit.point.z - transform.position.z) < 2)
             {
                 aiming = true;
+                audioSource.clip = tensionClip;
+                audioSource.Play();
                 aim_arrow.enabled = true;
             }
             if (aiming)

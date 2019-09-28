@@ -20,9 +20,32 @@ public class Zombi : MonoBehaviour
     private bool attackable = true;
     private Animator animator;
 
+    public AudioSource audioSource;
+    public AudioClip idle_clip1;
+    public AudioClip idle_clip2;
+    public AudioClip attack_clip1;
+    public AudioClip death_clip1;
+    public AudioClip death_clip2;
+    public AudioClip death_clip3;
+    private List<AudioClip> idleClips;
+    private List<AudioClip> attackClips;
+    private List<AudioClip> deathClips;
     public float waitForNextAttack = 1f;
     void Start()
     {
+
+        idleClips = new List<AudioClip>();
+        attackClips = new List<AudioClip>();
+        deathClips = new List<AudioClip>();
+        idleClips.Add(idle_clip1);
+        idleClips.Add(idle_clip2);
+
+        attackClips.Add(attack_clip1);
+
+        deathClips.Add(death_clip1);
+        deathClips.Add(death_clip2);
+        deathClips.Add(death_clip3);
+        
         Physics.IgnoreLayerCollision(8, 9);
         animator = GetComponentInChildren<Animator>();
         animator.SetBool("isAlive", true);
@@ -41,6 +64,11 @@ public class Zombi : MonoBehaviour
             if (Vector3.Distance(transform.position, player.transform.position) > attackDistance)
             {
                 walkToArcher();
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.clip = idleClips[Random.Range(0, idleClips.Count)];
+                    audioSource.Play();
+                }
                 animator.SetBool("isWalking", true);
             }
             else
@@ -48,6 +76,13 @@ public class Zombi : MonoBehaviour
                 animator.SetBool("isWalking", false);
                 if (attackable && playerHealth.isAlive)
                 {
+
+
+                    audioSource.Stop();
+                    audioSource.clip = attackClips[Random.Range(0, attackClips.Count)];
+                    audioSource.Play();
+
+
                     animator.SetBool("isAttacking", true);
                     attack();
                     attackable = false;
@@ -126,6 +161,10 @@ public class Zombi : MonoBehaviour
 
     private void die()
     {
+        audioSource.Stop();
+        audioSource.clip = deathClips[Random.Range(0, deathClips.Count)];
+        audioSource.Play();
+
         isDead = true;
         animator.SetBool("isAlive", false);
         healthSlider.gameObject.SetActive(false);
