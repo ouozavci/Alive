@@ -111,6 +111,7 @@ public class Zombi : MonoBehaviour
 
     private void walkToArcher()
     {
+        transform.LookAt(player.transform.position);
         moveDirection = calculateDirection(transform.position, player.transform.position);
         controller.SimpleMove(moveDirection * speed * Time.deltaTime);
     }

@@ -38,7 +38,7 @@ public class RespawnZombies : MonoBehaviour
     private void respawnZombie()
     {
         zombieCount++;
-        Instantiate(zombie, new Vector3(Random.Range(minX, maxX), 2f, Random.Range(minZ, maxZ)), zombie.transform.rotation);
+        Instantiate(zombie, new Vector3(Random.Range(minX, maxX), 0f, Random.Range(minZ, maxZ)), zombie.transform.rotation);
     }
 
     IEnumerator RespawnYield()
