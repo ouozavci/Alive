@@ -21,11 +21,13 @@ public class ShootArrows : MonoBehaviour
     public AudioSource audioSource;
     public AudioClip tensionClip;
     public AudioClip shootClip;
-
+    private Animator animator;
 
     void Start()
     {
         aim_arrow.enabled = false;
+        animator = GetComponentInChildren<Animator>();
+        animator.SetBool("isAiming", false);
     }
 
     // Update is called once per frame
@@ -65,6 +67,7 @@ public class ShootArrows : MonoBehaviour
             if (Mathf.Abs(hit.point.x - transform.position.x) < 2 && Mathf.Abs(hit.point.z - transform.position.z) < 2)
             {
                 aiming = true;
+                animator.SetBool("isAiming", true);
                 audioSource.clip = tensionClip;
                 audioSource.Play();
                 aim_arrow.enabled = true;
@@ -100,6 +103,7 @@ public class ShootArrows : MonoBehaviour
 
     void shoot()
     {
+        animator.SetBool("isAiming", false);
         var bullet = Instantiate(arrow, bow.transform.position, bow.transform.rotation);
         bullet.GetComponent<Rigidbody>().velocity = -1 * bullet.transform.up * shootPower;
         Destroy(bullet, despawnTime);
