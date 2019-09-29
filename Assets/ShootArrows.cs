@@ -5,6 +5,7 @@ using UnityEngine;
 public class ShootArrows : MonoBehaviour
 {
     public GameObject arrow;
+    public GameObject fireArrow;
     public GameObject bow;
     public float arrowSpeed;
     public float despawnTime = 3.0f;
@@ -22,6 +23,8 @@ public class ShootArrows : MonoBehaviour
     public AudioClip tensionClip;
     public AudioClip shootClip;
     private Animator animator;
+
+    public bool isFireArrow = false;
 
     void Start()
     {
@@ -100,11 +103,21 @@ public class ShootArrows : MonoBehaviour
         yield return new WaitForSeconds(waitBeforeNextShot);
         shootable = true;
     }
+    
+    public void setFireArrow(){
+        isFireArrow = true;
+    }
 
     void shoot()
     {
         animator.SetBool("isAiming", false);
-        var bullet = Instantiate(arrow, bow.transform.position, bow.transform.rotation);
+        GameObject bullet; 
+        if(isFireArrow){
+            bullet = Instantiate(fireArrow, bow.transform.position, bow.transform.rotation);
+            isFireArrow = false;
+        }else{
+            bullet = Instantiate(arrow, bow.transform.position, bow.transform.rotation);
+        }
         bullet.GetComponent<Rigidbody>().velocity = -1 * bullet.transform.up * shootPower;
         Destroy(bullet, despawnTime);
     }

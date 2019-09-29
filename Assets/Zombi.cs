@@ -20,6 +20,8 @@ public class Zombi : MonoBehaviour
     private bool attackable = true;
     private Animator animator;
 
+    public GameObject fire;
+
     public AudioSource audioSource;
     public AudioClip idle_clip1;
     public AudioClip idle_clip2;
@@ -132,7 +134,7 @@ public class Zombi : MonoBehaviour
             Rigidbody arrowRb = other.attachedRigidbody;
             if (arrowRb.velocity.magnitude > 30f)
             {
-                health -= arrowRb.velocity.magnitude;
+                health -= arrowRb.velocity.magnitude * 0.4f;
                 arrowRb.velocity = arrowRb.velocity * 0.5f;
                 if (arrowRb.velocity.magnitude < 30f)
                 {
@@ -145,9 +147,9 @@ public class Zombi : MonoBehaviour
                 arrowRb.velocity = Vector3.zero;
                 other.gameObject.SetActive(false);
             }
-
-
-
+        }
+        else if(other.name.Equals("FireArrow(Clone)")){
+            fire.SetActive(true);
         }
     }
     private void attack()
