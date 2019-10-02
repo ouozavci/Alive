@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Zombi : MonoBehaviour
 {
-    //This moves the player with a slope of 1 or undefined. Very limited
+    public float armor;
     public PointCount pointCount;
     public float maxHealth;
     private float health;
@@ -129,29 +129,55 @@ public class Zombi : MonoBehaviour
         {
             return;
         }
-        if (other.name.Equals("Arrow(Clone)"))
+        if (other.name.Contains("Arrow"))
         {
-            Rigidbody arrowRb = other.attachedRigidbody;
-            if (arrowRb.velocity.magnitude > 30f)
+
+            float hitPower = other.GetComponent<ArrowSpecs>().hitPower;
+            float armorPierce = other.GetComponent<ArrowSpecs>().armorPierce;
+            float penetration = other.GetComponent<ArrowSpecs>().penetration;
+            ShootArrows shootScript = player.GetComponent<ShootArrows>();
+
+            float rnd = Random.Range(0f, 0.5f);
+            Debug.Log((other.attachedRigidbody.velocity.magnitude / shootScript.maxShootPower));
+            float hitToHealth = hitPower * rnd * (other.attachedRigidbody.velocity.magnitude / shootScript.maxShootPower);
+            float hitToArmor = hitPower * (1f - rnd) * (other.attachedRigidbody.velocity.magnitude / shootScript.maxShootPower);
+            armor-=armorPierce;
+            if (armor < hitToArmor)
             {
-                health -= arrowRb.velocity.magnitude * 0.4f;
-                arrowRb.velocity = arrowRb.velocity * 0.5f;
-                if (arrowRb.velocity.magnitude < 30f)
-                {
-                    arrowRb.velocity = Vector3.zero;
-                    other.gameObject.SetActive(false);
-                }
+                hitToHealth += (hitToArmor - armor);
+                armor = 0;
             }
             else
             {
-                arrowRb.velocity = Vector3.zero;
-                other.gameObject.SetActive(false);
+                armor -= hitToArmor;
+            }
+            health -= hitToHealth;
+            if (other.name.Equals("FireArrow(Clone)"))
+            {
+                fire.SetActive(true);
+            }
+            arrowHit(other.attachedRigidbody, penetration);
+        }
+
+    }
+    private void arrowHit(Rigidbody arrow, float penetration)
+    {
+        if (arrow.velocity.magnitude > 30f)
+        {
+            arrow.velocity = arrow.velocity * (penetration/100);
+            if (arrow.velocity.magnitude < 30f)
+            {
+                arrow.velocity = Vector3.zero;
+                arrow.gameObject.SetActive(false);
             }
         }
-        else if(other.name.Equals("FireArrow(Clone)")){
-            fire.SetActive(true);
+        else
+        {
+            arrow.velocity = Vector3.zero;
+            arrow.gameObject.SetActive(false);
         }
     }
+
     private void attack()
     {
         playerHealth.getDamage(10);

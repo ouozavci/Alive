@@ -285,6 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f71d9b27af2b9d34b82e9433d94741bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  armor: 200
   pointCount: {fileID: 0}
   maxHealth: 100
   healthBarUI: {fileID: 1038189642445145527}

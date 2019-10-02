@@ -42,7 +42,7 @@ Light:
   serializedVersion: 8
   m_Type: 2
   m_Color: {r: 0.9468015, g: 1, b: 0.07075471, a: 1}
-  m_Intensity: 1
+  m_Intensity: 3
   m_Range: 4.6367617
   m_SpotAngle: 42.7
   m_CookieSize: 10
@@ -158,6 +158,7 @@ GameObject:
   - component: {fileID: 2971134539604050796}
   - component: {fileID: 2971134539604050707}
   - component: {fileID: 2971134539604050706}
+  - component: {fileID: 40295744419119661}
   m_Layer: 9
   m_Name: Arrow
   m_TagString: Untagged
@@ -210,3 +211,18 @@ CapsuleCollider:
   m_Height: 1.1641146
   m_Direction: 1
   m_Center: {x: 0.002324972, y: -0.0008670573, z: 0.0076186103}
+--- !u!114 &40295744419119661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2971134539604050797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f16b138d379b824990d4d5e2f3fd8b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPower: 100
+  armorPierce: 20
+  penetration: 70
