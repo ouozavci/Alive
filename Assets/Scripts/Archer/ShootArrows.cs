@@ -42,7 +42,7 @@ public class ShootArrows : MonoBehaviour
             {
                 setTargetPosition();
             }
-            if (Input.GetKeyUp(KeyCode.Mouse0) && aiming && shootable)
+            else if ((aiming || Input.GetKeyUp(KeyCode.Mouse0)) && shootable)
             {
                 aiming = false;
                 aim_arrow.enabled = false;
