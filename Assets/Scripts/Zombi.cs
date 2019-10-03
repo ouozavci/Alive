@@ -131,17 +131,17 @@ public class Zombi : MonoBehaviour
         }
         if (other.name.Contains("Arrow"))
         {
-
-            float hitPower = other.GetComponent<ArrowSpecs>().hitPower;
-            float armorPierce = other.GetComponent<ArrowSpecs>().armorPierce;
-            float penetration = other.GetComponent<ArrowSpecs>().penetration;
+            ArrowSpecs specs = other.GetComponent<ArrowSpecs>();
+            float hitPower = specs.hitPower;
+            float armorPierce = specs.armorPierce;
+            float penetration = specs.penetration;
             ShootArrows shootScript = player.GetComponent<ShootArrows>();
 
             float rnd = Random.Range(0f, 0.5f);
             Debug.Log((other.attachedRigidbody.velocity.magnitude / shootScript.maxShootPower));
             float hitToHealth = hitPower * rnd * (other.attachedRigidbody.velocity.magnitude / shootScript.maxShootPower);
             float hitToArmor = hitPower * (1f - rnd) * (other.attachedRigidbody.velocity.magnitude / shootScript.maxShootPower);
-            armor-=armorPierce;
+            armor -= armorPierce;
             if (armor < hitToArmor)
             {
                 hitToHealth += (hitToArmor - armor);
@@ -154,17 +154,30 @@ public class Zombi : MonoBehaviour
             health -= hitToHealth;
             if (other.name.Equals("FireArrow(Clone)"))
             {
-                fire.SetActive(true);
+                StartCoroutine(FireArrowDamage(specs.fireDamage));
             }
             arrowHit(other.attachedRigidbody, penetration);
         }
 
     }
+
+    IEnumerator FireArrowDamage(float fireDamage)
+    {
+        fire.SetActive(true);
+        for (int i = 0; i < 10; i++)
+        {
+            health -= fireDamage / 10;
+            yield return new WaitForSeconds(0.5f);
+        }
+        fire.SetActive(false);
+    }
+
+
     private void arrowHit(Rigidbody arrow, float penetration)
     {
         if (arrow.velocity.magnitude > 30f)
         {
-            arrow.velocity = arrow.velocity * (penetration/100);
+            arrow.velocity = arrow.velocity * (penetration / 100);
             if (arrow.velocity.magnitude < 30f)
             {
                 arrow.velocity = Vector3.zero;

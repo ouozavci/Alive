@@ -79,7 +79,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitPower: 80
   armorPierce: 15
-  penetration: 20
+  penetration: 70
+  fireDamage: 50
 --- !u!1 &6692181352347127967
 GameObject:
   m_ObjectHideFlags: 0

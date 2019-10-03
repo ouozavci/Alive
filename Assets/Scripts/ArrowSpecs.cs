@@ -7,4 +7,6 @@ public class ArrowSpecs : MonoBehaviour
     public float hitPower;
     public float armorPierce;
     public float penetration;
+
+    public float fireDamage;
 }
