@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShootArrows : MonoBehaviour
 {
@@ -14,6 +15,12 @@ public class ShootArrows : MonoBehaviour
     public SpriteRenderer aim_arrow;
     public GameObject aim_arrow_object;
     public PlayerHealth playerHealth;
+
+    public Text FireCountText;
+    public Text IceCountText;
+
+    public int fireArrowCount = 5;
+    public int iceArrowCount = 5;
 
     private float shootPower = 0;
     private bool aiming = false;
@@ -36,6 +43,8 @@ public class ShootArrows : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        FireCountText.text = fireArrowCount.ToString();
+        IceCountText.text = iceArrowCount.ToString();
         if (playerHealth.isAlive)
         {
             if (Input.GetKey(KeyCode.Mouse0))
@@ -103,19 +112,24 @@ public class ShootArrows : MonoBehaviour
         yield return new WaitForSeconds(waitBeforeNextShot);
         shootable = true;
     }
-    
-    public void setFireArrow(){
+
+    public void setFireArrow()
+    {
         isFireArrow = true;
     }
 
     void shoot()
     {
         animator.SetBool("isAiming", false);
-        GameObject bullet; 
-        if(isFireArrow){
+        GameObject bullet;
+        if (isFireArrow && fireArrowCount > 0)
+        {
             bullet = Instantiate(fireArrow, bow.transform.position, bow.transform.rotation);
+            fireArrowCount--;
             isFireArrow = false;
-        }else{
+        }
+        else
+        {
             bullet = Instantiate(arrow, bow.transform.position, bow.transform.rotation);
         }
         bullet.GetComponent<Rigidbody>().velocity = -1 * bullet.transform.up * shootPower;
