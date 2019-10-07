@@ -137,7 +137,7 @@ public class Zombi : MonoBehaviour
             float penetration = specs.penetration;
             ShootArrows shootScript = player.GetComponent<ShootArrows>();
 
-            float rnd = Random.Range(0f, 0.5f);
+            float rnd = Random.Range(0.7f, 0.8f);
             Debug.Log((other.attachedRigidbody.velocity.magnitude / shootScript.maxShootPower));
             float hitToHealth = hitPower * rnd * (other.attachedRigidbody.velocity.magnitude / shootScript.maxShootPower);
             float hitToArmor = hitPower * (1f - rnd) * (other.attachedRigidbody.velocity.magnitude / shootScript.maxShootPower);
