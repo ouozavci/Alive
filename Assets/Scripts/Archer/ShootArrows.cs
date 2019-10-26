@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class ShootArrows : MonoBehaviour {
     public GameObject arrow;
     public GameObject fireArrow;
+    public GameObject iceArrow;
     public GameObject bow;
     public float arrowSpeed;
-    public float despawnTime = 3.0f;
+    public float despawnTime = 5.0f;
     public bool shootable = true;
     public float waitBeforeNextShot = 1f;
     public SpriteRenderer aim_arrow;
@@ -31,6 +32,7 @@ public class ShootArrows : MonoBehaviour {
     private Animator animator;
 
     public bool isFireArrow = false;
+    public bool isIceArrow = false;
 
     void Start () {
         aim_arrow.enabled = false;
@@ -97,10 +99,23 @@ public class ShootArrows : MonoBehaviour {
     }
 
     public void setFireArrow () {
-        if (isFireArrow)
+        if (isFireArrow) {
             isFireArrow = false;
-        else
+            isIceArrow = false;
+        } else {
             isFireArrow = true;
+            isIceArrow = false;
+        }
+    }
+
+    public void setIceArrow () {
+        if (isIceArrow) {
+            isIceArrow = false;
+            isFireArrow = false;
+        } else {
+            isIceArrow = true;
+            isFireArrow = false;
+        }
     }
 
     void shoot () {
@@ -109,10 +124,13 @@ public class ShootArrows : MonoBehaviour {
         if (isFireArrow && fireArrowCount > 0) {
             bullet = Instantiate (fireArrow, bow.transform.position, bow.transform.rotation);
             fireArrowCount--;
+        } else if (isIceArrow && iceArrowCount > 0) {
+            bullet = Instantiate (iceArrow, bow.transform.position, bow.transform.rotation);
+            iceArrowCount--;
         } else {
             bullet = Instantiate (arrow, bow.transform.position, bow.transform.rotation);
         }
         bullet.GetComponent<Rigidbody> ().velocity = -1 * bullet.transform.up * shootPower;
-        Destroy (bullet, despawnTime);
+        //Destroy (bullet, despawnTime);
     }
 }
